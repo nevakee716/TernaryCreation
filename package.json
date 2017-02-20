@@ -1,0 +1,21 @@
+{
+  "name": "TernaryCreation",
+  "description": "Allow you to Create Ternary Association",
+  "version": "0.0.1",
+  "main": "cwTernaryCreation.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nevakee716/TernaryCreation"
+  },
+  "author": "Mathias PFAUWADEL",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nevakee716/TernaryCreation/issues"
+  },
+  "homepage": "",
+  "wiki": "https://github.com/nevakee716/TernaryCreation/wiki",
+  "evolve-version": "4.0 - 4.1"
+}
