@@ -1,0 +1,28 @@
+<table>
+  <tr>
+    <td style="{{display}}"><select ng-options="key as ot0Objects[key].name for (key, value) in ot0Objects" ng-model="data.ot0"></select></td>
+    <td><select ng-options="key as ot1Objects[key].name for (key, value) in ot1Objects" ng-model="data.ot1"></select></td>
+    <td><select ng-options="key as ot2Objects[key].name for (key, value) in ot2Objects" ng-model="data.ot2"></select></td>
+    <td><button ng-click="add(data)">Add</button><br></td>
+  </tr>  
+  <tr ng-repeat="(key, value) in lines">
+    <td style="{{display}}" ng-bind-html="getCustomDisplayString(0,key)"></td>
+    <td ng-bind-html="getCustomDisplayString(1,key)"></td>
+    <td ng-bind-html="getCustomDisplayString(2,key)"></td>
+    <td>
+    	<button ng-click="remove(key)">Remove</button>
+   	</td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -73,13 +73,7 @@
 
         filterObject = document.createElement("select");
         filterObject.setAttribute('size','1');
-        //filterObject.setAttribute('multiple','');
-        //filterObject.setAttribute('title',this.label);
-        //filterObject.setAttribute('data-live-search','true');
-        //filterObject.setAttribute('data-selected-text-format','count > 2');
-        //filterObject.setAttribute('data-actions-box','true');
 
-        //filterObject.setAttribute('show-menu-arrow','true');
         
         filterObject.className = classname;
         filterObject.setAttribute('id',this.node);

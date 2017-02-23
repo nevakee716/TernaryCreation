@@ -7,148 +7,130 @@
 
     cwTernaryCreation = function (options, viewSchema) {
       this.viewSchema = viewSchema;
+      cwApi.extend(this, cwApi.cwLayouts.CwLayout, options, viewSchema);        
 
-      if(options.CustomOptions.hasOwnProperty('replace-layout')) {
-        this.replaceLayout = options.CustomOptions['replace-layout'];
-        cwApi.extend(this, cwApi.cwLayouts[this.replaceLayout], options, viewSchema);
-      } else {
-        cwApi.extend(this, cwApi.cwLayouts.CwLayout, options, viewSchema);        
-      }
-
-      this.cwTernaryTable = new cwApi.customLibs.cwTernaryCreation.cwTernaryTable(); 
-      this.NodesFilter1 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true,'NodesFilter1'); 
-      this.NodesFilter2 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true,'NodesFilter2'); 
-      this.EvodUrl = this.options.CustomOptions['EVOD-url'];
-      this.drawOneMethod = cwApi.cwLayouts.cwLayoutList.drawOne.bind(this);
+      this.cwTernaryTable = new cwApi.customLibs.cwTernaryCreation.cwTernaryTable(this.viewSchema); 
       cwApi.registerLayoutForJSActions(this);
       this.lockState = false;
     };
 
     cwTernaryCreation.prototype.drawAssociations = function (output, associationTitleText, object) {
-      output.push('<div id="cwTernaryCreation" class="bootstrap-iso" style= "display: flex"></div></div><div id="cwTernaryTable">');
-      this.cwTernaryTable.parseObjects([object]);
-
-      if(cwApi.cwLayouts[this.replaceLayout].prototype.drawAssociations) {
-          cwApi.cwLayouts[this.replaceLayout].prototype.drawAssociations.call(this,output, associationTitleText, object);
+      output.push('<div id="cwTernaryCreation" class="bootstrap-iso" style= "display: flex"></div></div><div id="cwTernaryTable"></div>');
+      if(cwApi.isIndexPage()) {
+        this.parseObjects(object);
       } else {
-          cwApi.cwLayouts.CwLayout.prototype.drawAssociations.call(this,output, associationTitleText, object);
+        this.parseObjects([object]);
       }
-      output.push('</div>');
+      this.getObjects();
     };
 
-    cwTernaryCreation.prototype.getThirdLvlNode = function () {
+    cwTernaryCreation.prototype.parseObjects = function (child,data1,data2) {
+        var nextChild = null;
+        var data = {};
+        if(child.hasOwnProperty('associations')) {
+            for(var associationNode in child.associations) {
+                if (child.associations.hasOwnProperty(associationNode)) {
+                    for (var i = 0; i < child.associations[associationNode].length; i += 1) {
+                        nextChild = child.associations[associationNode][i];
+                        data.id = nextChild.object_id;
+                        data.name = nextChild.name;
+                        data.label = this.getDisplayItem(nextChild);
+                        if(data1 && data2) {
+                            this.cwTernaryTable.addline($.extend(true, {}, data1),$.extend(true, {}, data2),$.extend(true, {}, data));
+                        }
+                        else if(data1) this.parseObjects(nextChild,data1,data);
+                        else this.parseObjects(nextChild,data);
+                    }
+                }
+            }
+        } else {
+            for (var i = 0; i < child.length; i += 1) {
+                nextChild = child[i];
+                data.id = nextChild.object_id;
+                data.name = nextChild.name;
+                this.parseObjects(nextChild,data);
+            }
+        }     
+    };
+
+
+
+
+
+    cwTernaryCreation.prototype.getSecondLvlNode = function () {
       var nodes,key;
       if(this.viewSchema.NodesByID[this.mmNode.NodeID].SortedChildren[0]){
         return this.viewSchema.NodesByID[this.viewSchema.NodesByID[this.mmNode.NodeID].SortedChildren[0].NodeId].ObjectTypeScriptName;
       }
     };
 
+    cwTernaryCreation.prototype.getThirdLvlNode = function () {
+      var nodes,key,sonNode,grdSonNode;
+      sonNode = this.viewSchema.NodesByID[this.mmNode.NodeID].SortedChildren[0].NodeId;
+      if(sonNode && this.viewSchema.NodesByID[sonNode].SortedChildren[0]){
+        grdSonNode = this.viewSchema.NodesByID[sonNode].SortedChildren[0].NodeId;
+        return this.viewSchema.NodesByID[grdSonNode].ObjectTypeScriptName;
+      }
+    };
+
     cwTernaryCreation.prototype.getObjects = function () {
-      var sendData = {};
-      var propertiesToSelect = ["NAME","ID"];
-      var that = this;
-      var callbackCount = 0;
+      var objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2;
 
-      var objectTypeScriptName1 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
-      sendData.objectTypeScriptName = objectTypeScriptName1;
-      sendData.propertiesToSelect = propertiesToSelect;   
+      if(cwApi.isIndexPage()) {
+        objectTypeScriptName0 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
+        objectTypeScriptName1 = this.getSecondLvlNode();
+        objectTypeScriptName2 = this.getThirdLvlNode();
+      } else {
+        objectTypeScriptName0 = this.item.objectTypeScriptName.toUpperCase();
+        objectTypeScriptName1 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
+        objectTypeScriptName2 = this.getSecondLvlNode();
+      }
 
-      cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function (update) {
-        var object1;
-        if(update && update.hasOwnProperty(objectTypeScriptName1.toLowerCase())) {
-          for (var i = 0 ; i < update[objectTypeScriptName1.toLowerCase()].length; i++) {
-            object1 = update[objectTypeScriptName1.toLowerCase()][i];
-            if(object1.hasOwnProperty('properties') && object1.properties.hasOwnProperty("name") && object1.properties.hasOwnProperty("id")) {
-              that.NodesFilter1.addfield(objectTypeScriptName1,object1.properties["name"],object1.properties["id"]);
-            }
-          }
-          callbackCount = callbackCount + 1;
-        }
-        
-        if(callbackCount === 2) {
-          that.createFilters();
-        }
-      });
-
-      var objectTypeScriptName2 = this.getThirdLvlNode();
-      sendData.objectTypeScriptName = objectTypeScriptName2;
-      
-      cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function (update) {
-        var object2; 
-        if(update && update.hasOwnProperty(objectTypeScriptName2.toLowerCase())) {
-          for (var i = 0 ; i < update[objectTypeScriptName2.toLowerCase()].length; i++) {
-            object2 = update[objectTypeScriptName2.toLowerCase()][i];
-            if(object2.hasOwnProperty('properties') && object2.properties.hasOwnProperty("name") && object2.properties.hasOwnProperty("id")) {
-              that.NodesFilter2.addfield(objectTypeScriptName2,object2.properties["name"],object2.properties["id"]);
-            }
-          }
-          callbackCount = callbackCount + 1 ;
-        }
-
-        if(callbackCount === 2) {
-          that.createFilters();
-        }
-      });
+      this.cwTernaryTable.getObjects(objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2);
     };
 
 
-    cwTernaryCreation.prototype.createFilters = function () {
-      var classname = 'customTernaryLayoutFilter';
-        var container = document.getElementById("cwTernaryCreation");
-        var node;
-        var that = this;
-        if(container){
-          container.appendChild(this.NodesFilter1.getFilterObject(classname));
-          container.appendChild(this.NodesFilter2.getFilterObject(classname));
-          var result = document.createElement("div");
 
-          var button = document.createElement("input");
-          button.setAttribute('type','submit');  
-          button.value = "Ajouter"; 
-          button.addEventListener("click", function() {
-              if(that.isLocked() === false) {
-                that.lock();
-                that.getCreationTernaryUrl();    
-              }
+    cwTernaryCreation.prototype.getCreationTernaryUrl = function (data,callback) {
+      if(data && data.hasOwnProperty('ot0') && data.ot0 && data.hasOwnProperty('ot1') && data.ot1 && data.hasOwnProperty('ot2') && data.ot2) {
+        var id0 = data.ot0;
+        var id1 = data.ot1;
+        var id2 = data.ot2;
+        var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
+        url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.label + "&id0=" + id0;
+        url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.label + "&id1=" + id1;
+        url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.label + "&id2=" + id2;
+        url = url + "&command=create"; 
 
-          });
-          container.appendChild(button);
-        }
-      };
+        var line = [{},{},{}];
+        line[0].id = id0;
+        line[0].name = this.cwTernaryTable.NodesFilter0.filterField[data.ot0].name;
+        line[1].id = id1;
+        line[1].name = this.cwTernaryTable.NodesFilter1.filterField[data.ot1].name;
+        line[2].id = id2;
+        line[2].name = this.cwTernaryTable.NodesFilter2.filterField[data.ot2].name;
 
-
-    cwTernaryCreation.prototype.getCreationTernaryUrl = function () {
-      var url = this.EvodUrl + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-      url = url + "&ot0=" + this.item.objectTypeScriptName + "&id0=" + this.item.object_id;
-      url = url + "&ot1=" + this.NodesFilter1.label + "&id1=" + this.NodesFilter1.selectedId;
-      url = url + "&ot2=" + this.NodesFilter2.label + "&id2=" + this.NodesFilter2.selectedId;  
-      url = url + "&command=create"; 
-
-      var line = [{},{},{}];
-      line[0].id = this.item.object_id;
-      line[0].name = this.item.name;
-      line[1].id = this.NodesFilter1.selectedId;
-      line[1].name = this.NodesFilter1.selectedName;
-      line[2].id = this.NodesFilter2.selectedId;
-      line[2].name = this.NodesFilter2.selectedName;
-      var that = this;
-      this.sendTernaryRequest(url,function() {
-        that.cwTernaryTable.addActiveLine(line);
-        that.createTable();
-      });
+        this.sendTernaryRequest(url,function() {
+          callback(line);
+        });
+      }
+      else {
+        this.unlock();
+        cwApi.notificationManager.addNotification("Please Select All fields",'error'); 
+      }
     };
 
 
-    cwTernaryCreation.prototype.getRemoveTernaryUrl = function (line) {
-      var url = this.EvodUrl + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-      url = url + "&ot0=" + this.item.objectTypeScriptName + "&id0=" + line[0].id;
-      url = url + "&ot1=" + this.NodesFilter1.label + "&id1="  + line[1].id;
-      url = url + "&ot2=" + this.NodesFilter2.label + "&id2="  + line[2].id; 
+    cwTernaryCreation.prototype.getRemoveTernaryUrl = function (line,callback) {
+      var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
+      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.label + "&id0=" + line[0].id;
+      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.label + "&id1="  + line[1].id;
+      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.label + "&id2="  + line[2].id; 
       url = url + "&command=delete"; 
       var that = this;
       this.sendTernaryRequest(url,function() {
-        that.cwTernaryTable.removeActiveLine(line);
-        that.createTable();
+        that.unlock();
+        callback();
       });
     };
 
@@ -163,30 +145,37 @@
             callback();
           } else {
             cwApi.notificationManager.addNotification(data.result,'error');
+            that.unlock();
           }
         } else {
           cwApi.notificationManager.addNotification('Failed to contact EvolveOnDemand','error');
+          that.unlock();
         }
-        that.unlock();
       });
 
     };
 
 
     cwTernaryCreation.prototype.createTable = function () {
-
         var container = document.getElementById("cwTernaryTable");
+        var $container = $('#cwTernaryTable');
         var node;
         var className = "ternaryRemovalTable";
         $('.' + className).remove();
         var that = this;
-        var table = this.cwTernaryTable.getTableObject(className);
-        if(container){
-          container.appendChild(table);
-          table.addEventListener('Remove Item', function(event) { 
+        if($container){
+          this.cwTernaryTable.createAngularTable($container,container,this.item);
+          container.addEventListener('Remove Item', function(event) { 
             if(that.isLocked() === false) {
               that.lock();
-              that.getRemoveTernaryUrl(event.line);
+              that.getRemoveTernaryUrl(event.line,event.callback);
+            }
+          });
+
+          container.addEventListener('Add Item', function(event) { 
+            if(that.isLocked() === false) {
+              that.lock();
+              that.getCreationTernaryUrl(event.data,event.callback);
             }
           });
         }
@@ -209,8 +198,10 @@
     };
 
     cwTernaryCreation.prototype.applyJavaScript = function () {
-        this.getObjects();
-        this.createTable();
+        var that = this;
+        cwApi.CwAsyncLoader.load('angular', function () {
+          that.createTable();
+        });
     };
 
  
