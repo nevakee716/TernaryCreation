@@ -30,7 +30,7 @@
   
   <meta name="pjax-timeout" content="1000">
   
-  <meta name="request-id" content="184A:7C2E:9D28DE:FBB3FB:58B01F69" data-pjax-transient>
+  <meta name="request-id" content="1A05:7C2E:A07148:10103A1:58B02460" data-pjax-transient>
   
 
   <meta name="selected-link" value="repo_source" data-pjax-transient>
@@ -39,7 +39,7 @@
 <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-analytics" content="UA-3769691-2">
 
-<meta content="collector.githubapp.com" name="octolytics-host" /><meta content="github" name="octolytics-app-id" /><meta content="https://collector.githubapp.com/github-external/browser_event" name="octolytics-event-url" /><meta content="184A:7C2E:9D28DE:FBB3FB:58B01F69" name="octolytics-dimension-request_id" />
+<meta content="collector.githubapp.com" name="octolytics-host" /><meta content="github" name="octolytics-app-id" /><meta content="https://collector.githubapp.com/github-external/browser_event" name="octolytics-event-url" /><meta content="1A05:7C2E:A07148:10103A1:58B02460" name="octolytics-dimension-request_id" />
 <meta content="/&lt;user-name&gt;/&lt;repo-name&gt;" data-pjax-transient="true" name="analytics-location" />
 
 
@@ -52,10 +52,10 @@
   <meta name="user-login" content="">
 
       <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="ZjU1NmJlNzNlMTg1NWIzMzIwNWVlNjQ4MmRmMTczMThkMDc3MDVlNzlmMjJjODNjZGY3NDU4MWNlMjZmNzBkNnx7InJlbW90ZV9hZGRyZXNzIjoiODQuMjMzLjE0NC4xODYiLCJyZXF1ZXN0X2lkIjoiMTg0QTo3QzJFOjlEMjhERTpGQkIzRkI6NThCMDFGNjkiLCJ0aW1lc3RhbXAiOjE0ODc5MzczODYsImhvc3QiOiJnaXRodWIuY29tIn0=">
+    <meta name="js-proxy-site-detection-payload" content="YzRhMDBkZDNmNmU2ZDRhMDgxMzgxMGY0YzY4OTA2ODQ0MTA0OGRmZmI3OGRjZGFkZDBhOGMxYzAzNjMyOTNmMHx7InJlbW90ZV9hZGRyZXNzIjoiODQuMjMzLjE0NC4xODYiLCJyZXF1ZXN0X2lkIjoiMUEwNTo3QzJFOkEwNzE0ODoxMDEwM0ExOjU4QjAyNDYwIiwidGltZXN0YW1wIjoxNDg3OTM4NjU2LCJob3N0IjoiZ2l0aHViLmNvbSJ9">
 
 
-  <meta name="html-safe-nonce" content="f8c8a4aabe7d0ffe35719198d53cb19bab2bd1ae">
+  <meta name="html-safe-nonce" content="9922723ff769f59509c03c7a4a6761c97a8c0767">
 
   <meta http-equiv="x-pjax-version" content="d315960581ecedf86906f3f215b9732a">
   
@@ -300,7 +300,7 @@
         <a data-pjax href="/nevakee716/TernaryCreation/commits/master">
             <svg aria-hidden="true" class="octicon octicon-history" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z"/></svg>
             <span class="num text-emphasized">
-              6
+              7
             </span>
             commits
         </a>
@@ -512,7 +512,7 @@
 
 
 
-<include-fragment class="commit-tease commit-loader" src="/nevakee716/TernaryCreation/tree-commit/0b3923270051bcc845064a16203f0dc2638ccd82">
+<include-fragment class="commit-tease commit-loader" src="/nevakee716/TernaryCreation/tree-commit/2dc903404fcbf991f98bce11f71aa69de440e78b">
   <div class="blank">
     <img alt="" class="loader" height="16" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-32-EAF2F5.gif" width="16" />
     Fetching latest commit…
@@ -524,7 +524,7 @@
 
 <div class="file-wrap">
 
-  <a href="/nevakee716/TernaryCreation/tree/0b3923270051bcc845064a16203f0dc2638ccd82" class="d-none js-permalink-shortcut" data-hotkey="y">Permalink</a>
+  <a href="/nevakee716/TernaryCreation/tree/2dc903404fcbf991f98bce11f71aa69de440e78b" class="d-none js-permalink-shortcut" data-hotkey="y">Permalink</a>
 
   <table class="files js-navigation-container js-active-navigation-container" data-pjax>
 
@@ -643,15 +643,15 @@
             <img alt="" class="spinner" height="16" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-32.gif" width="16" />
           </td>
           <td class="content">
-            <span class="css-truncate css-truncate-target"><a href="/nevakee716/TernaryCreation/blob/master/package.json" class="js-navigation-open" id="b9cfc7f2cdf78a7f4b91a753d10865a2-b2ff3db415cbdf5af81eb35a9090c3d2872a4626" title="package.json">package.json</a></span>
+            <span class="css-truncate css-truncate-target"><a href="/nevakee716/TernaryCreation/blob/master/package.json" class="js-navigation-open" id="b9cfc7f2cdf78a7f4b91a753d10865a2-6f841363eb0102112c69ff68b3273347dbccc63f" title="package.json">package.json</a></span>
           </td>
           <td class="message">
             <span class="css-truncate css-truncate-target">
-                  <a href="/nevakee716/TernaryCreation/commit/b7eaf502006c6eb6b92eccb8a5f9ee4691991823" class="message" data-pjax="true" title="init">init</a>
+                  <a href="/nevakee716/TernaryCreation/commit/2dc903404fcbf991f98bce11f71aa69de440e78b" class="message" data-pjax="true" title="1.0.0">1.0.0</a>
             </span>
           </td>
           <td class="age">
-            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-02-20T15:46:25Z">Feb 20, 2017</time-ago></span>
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-02-24T11:56:47Z">Feb 24, 2017</time-ago></span>
           </td>
         </tr>
     </tbody>
@@ -790,7 +790,7 @@ Using custom display string, we can apply the style we want to our present and n
       <svg aria-hidden="true" class="octicon octicon-mark-github" height="24" version="1.1" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
 </a>
     <ul class="site-footer-links">
-      <li>&copy; 2017 <span title="0.15856s from github-fe147-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+      <li>&copy; 2017 <span title="0.12081s from github-fe116-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
         <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
         <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
         <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>
