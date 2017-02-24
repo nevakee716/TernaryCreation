@@ -1,0 +1,49 @@
+@import "../../_variables";
+
+ 
+div#cwTernaryTable {
+  table{
+    
+    margin: 1em 0;
+    width: 100%;
+    overflow: hidden;  
+    background: @cwBodyBackgroundColor;
+    color: @cwFontTextColor;
+
+    tbody{
+      tr {
+        border: @cwPropertiesContainerBorderColor; 
+        &:nth-child(odd) { // highlight the odd rows with a color
+          background-color: @cwEditPropertiesValueHoverBackgroundColor;
+        }  
+      }
+    
+      th {
+        border: @cwPropertiesContainerBorderColor;
+        background-color: @cwPropertiesTableHeaderBackgroundColor;
+        color: @cwListBoxPropertyHeaderTextColor;
+        padding: @cwHeaderPadding;  
+        text-colour: @cwPropertiesTableHeaderTextColor;
+        text-size: @cwFontMenuTextSize;
+      }
+    
+      td {
+        display: block; // display the table data as one block for mobile
+        word-wrap: break-word;
+        max-width: 7em;     
+        button{
+          width:100%;
+        }
+      }
+    
+      th, td {
+        text-align: center;
+        margin: .5em 1em;  
+        display: table-cell; 
+        padding: 0,2em;
+      }  
+    }
+  }
+}    
+
+
