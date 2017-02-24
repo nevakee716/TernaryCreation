@@ -1,4 +1,4 @@
-div#cwTernaryTable table tbody {
+div#cwTernaryTable table {
   margin: 1em 0;
   width: 100%;
   overflow: hidden;
@@ -23,12 +23,14 @@ div#cwTernaryTable table tbody td {
   display: block;
   word-wrap: break-word;
   max-width: 7em;
-  text-align: center;
+}
+div#cwTernaryTable table tbody td button{
+  width: 100%;
 }
 div#cwTernaryTable table tbody th,
 div#cwTernaryTable table tbody td {
-  text-align: left;
+  text-align: center;
   margin: 0.5em 1em;
   display: table-cell;
-  padding: 1em;
+  padding: 0,2em;
 }

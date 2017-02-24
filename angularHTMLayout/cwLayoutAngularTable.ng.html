@@ -1,5 +1,11 @@
 <table>
   <tr>
+    <th>{{getLabel0()}}</th>
+    <th>{{getLabel1()}}</th>
+    <th>{{getLabel2()}}</th>
+    <th>Action</th>
+  </tr>
+  <tr>
     <td style="{{display}}"><select ng-options="key as ot0Objects[key].name for (key, value) in ot0Objects" ng-model="data.ot0"></select></td>
     <td><select ng-options="key as ot1Objects[key].name for (key, value) in ot1Objects" ng-model="data.ot1"></select></td>
     <td><select ng-options="key as ot2Objects[key].name for (key, value) in ot2Objects" ng-model="data.ot2"></select></td>
