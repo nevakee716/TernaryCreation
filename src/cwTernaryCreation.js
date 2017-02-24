@@ -16,12 +16,13 @@
 
     cwTernaryCreation.prototype.drawAssociations = function (output, associationTitleText, object) {
       output.push('<div id="cwTernaryCreation" class="bootstrap-iso" style= "display: flex"></div></div><div id="cwTernaryTable"></div>');
+      this.getObjects();
       if(cwApi.isIndexPage()) {
         this.parseObjects(object);
       } else {
         this.parseObjects([object]);
       }
-      this.getObjects();
+      
     };
 
     cwTernaryCreation.prototype.parseObjects = function (child,data1,data2) {
@@ -35,6 +36,9 @@
                         data.id = nextChild.object_id;
                         data.name = nextChild.name;
                         data.label = this.getDisplayItem(nextChild);
+                        if(data.label === "") {
+                          data.label = data.name;
+                        }
                         if(data1 && data2) {
                             this.cwTernaryTable.addline($.extend(true, {}, data1),$.extend(true, {}, data2),$.extend(true, {}, data));
                         }
@@ -48,6 +52,10 @@
                 nextChild = child[i];
                 data.id = nextChild.object_id;
                 data.name = nextChild.name;
+                data.label = this.getDisplayItem(nextChild);                    
+                if(data.label === "") {
+                  data.label = data.name;
+                }
                 this.parseObjects(nextChild,data);
             }
         }     
