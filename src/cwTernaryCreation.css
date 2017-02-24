@@ -1,0 +1,34 @@
+div#cwTernaryTable table tbody {
+  margin: 1em 0;
+  width: 100%;
+  overflow: hidden;
+  background: white;
+  color: #424242;
+}
+div#cwTernaryTable table tbody tr {
+  border: #bfbfbf;
+}
+div#cwTernaryTable table tbody tr:nth-child(odd) {
+  background-color: #e1e1e1;
+}
+div#cwTernaryTable table tbody th {
+  border: #bfbfbf;
+  background-color: #039be5;
+  color: white;
+  padding: 8px;
+  text-colour: white;
+  text-size: 13px;
+}
+div#cwTernaryTable table tbody td {
+  display: block;
+  word-wrap: break-word;
+  max-width: 7em;
+  text-align: center;
+}
+div#cwTernaryTable table tbody th,
+div#cwTernaryTable table tbody td {
+  text-align: left;
+  margin: 0.5em 1em;
+  display: table-cell;
+  padding: 1em;
+}

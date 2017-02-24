@@ -17,8 +17,6 @@
 
 
 
-
-
     cwTernaryTable.prototype.getObjects = function (objectTypeScriptName0, objectTypeScriptName1, objectTypeScriptName2) {
       var sendData = {};
       var propertiesToSelect = ["NAME","ID"];
@@ -88,12 +86,12 @@
     };
 
     cwTernaryTable.prototype.addlabel = function (label) {
-        if(this.label1 === undefined) {
+        if(this.label0 === undefined) {
+            this.label0 = label;
+        } else if(this.label1 === undefined) {
             this.label1 = label;
         } else if(this.label2 === undefined) {
             this.label2 = label;
-        } else if(this.label3 === undefined) {
-            this.label3 = label;
         }
     };
 
@@ -119,9 +117,9 @@
         loader.loadControllerWithTemplate('abc', $container, templatePath, function ($scope, $filter, $sce) {   
             that.scope = $scope;     
             $scope.lines = that.lines;
+            $scope.getLabel0 = function() {return that.label0;};
             $scope.getLabel1 = function() {return that.label1;};
             $scope.getLabel2 = function() {return that.label2;};
-            $scope.getLabel3 = function() {return that.label3;};
 
             $scope.ot0Objects = that.NodesFilter0.filterField;
             $scope.ot1Objects = that.NodesFilter1.filterField;
