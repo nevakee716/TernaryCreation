@@ -17,7 +17,7 @@
     cwTernaryCreation.prototype.drawAssociations = function (output, associationTitleText, object) {
       output.push('<div id="cwTernaryCreation" class="bootstrap-iso" style= "display: flex"></div></div><div id="cwTernaryTable"></div>');
       this.getObjects();
-      if(cwApi.isIndexPage()) {
+      if((cwApi.isIndexPage && cwApi.isIndexPage()) || this.item.objectTypeScriptName === undefined){
         this.parseObjects(object);
       } else {
         this.parseObjects([object]);
@@ -84,7 +84,7 @@
     cwTernaryCreation.prototype.getObjects = function () {
       var objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2;
 
-      if(cwApi.isIndexPage()) {
+      if((cwApi.isIndexPage && cwApi.isIndexPage()) || this.item.objectTypeScriptName === undefined) {
         objectTypeScriptName0 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
         objectTypeScriptName1 = this.getSecondLvlNode();
         objectTypeScriptName2 = this.getThirdLvlNode();
@@ -105,9 +105,9 @@
         var id1 = data.ot1;
         var id2 = data.ot2;
         var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-        url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.label + "&id0=" + id0;
-        url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.label + "&id1=" + id1;
-        url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.label + "&id2=" + id2;
+        url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + id0;
+        url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + id1;
+        url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2=" + id2;
         url = url + "&command=create"; 
 
         var line = [{},{},{}];
@@ -131,9 +131,9 @@
 
     cwTernaryCreation.prototype.getRemoveTernaryUrl = function (line,callback) {
       var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.label + "&id0=" + line[0].id;
-      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.label + "&id1="  + line[1].id;
-      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.label + "&id2="  + line[2].id; 
+      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + line[0].id;
+      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + line[1].id;
+      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2="  + line[2].id; 
       url = url + "&command=delete"; 
       var that = this;
       this.sendTernaryRequest(url,function() {

@@ -6,9 +6,6 @@
   "use strict";
   // constructor
   var cwTernaryTable = function() {
-    this.label0;
-    this.label1;
-    this.label2;
     this.lines = {};
     this.NodesFilter0 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true, 'NodesFilter0');
     this.NodesFilter1 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true, 'NodesFilter1');
@@ -23,9 +20,9 @@
     var that = this;
     var callbackCount = 0;
 
-    this.addlabel(objectTypeScriptName0);
-    this.addlabel(objectTypeScriptName1);
-    this.addlabel(objectTypeScriptName2);
+    this.NodesFilter0.objectTypeScriptName = objectTypeScriptName0;
+    this.NodesFilter1.objectTypeScriptName = objectTypeScriptName1;
+    this.NodesFilter2.objectTypeScriptName = objectTypeScriptName2;
 
 
     sendData.objectTypeScriptName = objectTypeScriptName0;
@@ -33,16 +30,18 @@
 
     cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
       var object0;
-      if (update && update.hasOwnProperty(objectTypeScriptName0.toLowerCase())) {
-        for (var i = 0; i < update[objectTypeScriptName0.toLowerCase()].length; i++) {
-          object0 = update[objectTypeScriptName0.toLowerCase()][i];
-          if (object0.hasOwnProperty('properties') && object0.properties.hasOwnProperty("name") && object0.properties.hasOwnProperty("id")) {
-            that.NodesFilter0.addfield(objectTypeScriptName0, object0.properties["name"], object0.properties["id"]);
+      for(var key in update) {
+        if(update.hasOwnProperty(key)) {
+          callbackCount = callbackCount + 1;
+          for (var i = 0; i < update[key].length; i++) {
+            object0 = update[key][i];
+              if (object0.hasOwnProperty('properties') && object0.properties.hasOwnProperty("name") && object0.properties.hasOwnProperty("id")) {
+                that.NodesFilter0.addfield(key, object0.properties["name"], object0.properties["id"]);
+                that.NodesFilter0.label = key;
+              } 
           }
         }
-        callbackCount = callbackCount + 1;
       }
-
       if (callbackCount === 3) {
         that.refresh();
       }
@@ -51,16 +50,18 @@
     sendData.objectTypeScriptName = objectTypeScriptName1;
     cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
       var object1;
-      if (update && update.hasOwnProperty(objectTypeScriptName1.toLowerCase())) {
-        for (var i = 0; i < update[objectTypeScriptName1.toLowerCase()].length; i++) {
-          object1 = update[objectTypeScriptName1.toLowerCase()][i];
-          if (object1.hasOwnProperty('properties') && object1.properties.hasOwnProperty("name") && object1.properties.hasOwnProperty("id")) {
-            that.NodesFilter1.addfield(objectTypeScriptName1, object1.properties["name"], object1.properties["id"]);
+      for(var key in update) {
+        if(update.hasOwnProperty(key)) {
+          callbackCount = callbackCount + 1;
+          for (var i = 0; i < update[key].length; i++) {
+            object1 = update[key][i];
+              if (object1.hasOwnProperty('properties') && object1.properties.hasOwnProperty("name") && object1.properties.hasOwnProperty("id")) {
+                that.NodesFilter1.addfield(key, object1.properties["name"], object1.properties["id"]);
+                that.NodesFilter1.label = key;
+              } 
           }
         }
-        callbackCount = callbackCount + 1;
       }
-
       if (callbackCount === 3) {
         that.refresh();
       }
@@ -69,36 +70,28 @@
     sendData.objectTypeScriptName = objectTypeScriptName2;
     cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
       var object2;
-      if (update && update.hasOwnProperty(objectTypeScriptName2.toLowerCase())) {
-        for (var i = 0; i < update[objectTypeScriptName2.toLowerCase()].length; i++) {
-          object2 = update[objectTypeScriptName2.toLowerCase()][i];
-          if (object2.hasOwnProperty('properties') && object2.properties.hasOwnProperty("name") && object2.properties.hasOwnProperty("id")) {
-            that.NodesFilter2.addfield(objectTypeScriptName2, object2.properties["name"], object2.properties["id"]);
+      for(var key in update) {
+        if(update.hasOwnProperty(key)) {
+          callbackCount = callbackCount + 1;
+          for (var i = 0; i < update[key].length; i++) {
+            object2 = update[key][i];
+              if (object2.hasOwnProperty('properties') && object2.properties.hasOwnProperty("name") && object2.properties.hasOwnProperty("id")) {
+                that.NodesFilter2.addfield(key, object2.properties["name"], object2.properties["id"]);
+                that.NodesFilter2.label = key;
+              } 
           }
         }
-        callbackCount = callbackCount + 1;
       }
-
       if (callbackCount === 3) {
         that.refresh();
       }
     });
   };
 
-  cwTernaryTable.prototype.addlabel = function(label) {
-    if (this.label0 === undefined) {
-      this.label0 = label;
-    } else if (this.label1 === undefined) {
-      this.label1 = label;
-    } else if (this.label2 === undefined) {
-      this.label2 = label;
-    }
-  };
-
   cwTernaryTable.prototype.addline = function(data0, data1, data2) {
     if(data1.label && data2.label) {
-      data1.label = data1.label.replace('cwview=' + this.label0.toLowerCase(),'cwview=' +this.label1.toLowerCase());
-      data2.label = data2.label.replace('cwview=' + this.label0.toLowerCase(),'cwview=' +this.label2.toLowerCase());
+      data1.label = data1.label.replace('cwview=' + this.NodesFilter0.objectTypeScriptName.toLowerCase(),'cwview=' + this.NodesFilter1.objectTypeScriptName.toLowerCase());
+      data2.label = data2.label.replace('cwview=' + this.NodesFilter0.objectTypeScriptName.toLowerCase(),'cwview=' + this.NodesFilter2.objectTypeScriptName.toLowerCase());
     }
     this.lines[data0.id + "#" + data1.id + "#" + data2.id] = [data0, data1, data2];
   };
@@ -126,13 +119,13 @@
       that.scope = $scope;
       $scope.lines = that.lines;
       $scope.getLabel0 = function() {
-        return that.label0;
+        return that.NodesFilter0.label;
       };
       $scope.getLabel1 = function() {
-        return that.label1;
+        return that.NodesFilter1.label;
       };
       $scope.getLabel2 = function() {
-        return that.label2;
+        return that.NodesFilter2.label;
       };
 
       $scope.ot0Objects = that.NodesFilter0.filterField;
@@ -142,9 +135,9 @@
 
 
       // in case of single Page, hide 1st column and preselect object
-      if (!cwAPI.isIndexPage()) {
+      if (cwAPI.isIndexPage && !cwAPI.isIndexPage()) {
         $scope.data = {};
-        $scope.display = 'display:none;';
+        $scope.display = 'display:none';
         $scope.data['ot0'] = item.object_id.toString();
       }
 
@@ -176,9 +169,7 @@
       };
 
       $scope.ExportCsv = function() {
-
         var table = container.firstChild;
-
         var csvString = '';
         for (var i = 0; i < table.rows.length; i++) {
           if(i !== 1) {
