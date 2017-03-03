@@ -16,12 +16,25 @@
 
     cwTernaryCreation.prototype.drawAssociations = function (output, associationTitleText, object) {
       output.push('<div id="cwTernaryCreation" class="bootstrap-iso" style= "display: flex"></div></div><div id="cwTernaryTable"></div>');
-      this.getObjects();
+
+      var objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2;
+
+      if((cwApi.isIndexPage && cwApi.isIndexPage()) || this.item.objectTypeScriptName === undefined) {
+        this.cwTernaryTable.NodesFilter0.objectTypeScriptName = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
+        this.cwTernaryTable.NodesFilter1.objectTypeScriptName = this.getSecondLvlNode();
+        this.cwTernaryTable.NodesFilter2.objectTypeScriptName = this.getThirdLvlNode();
+      } else {
+        this.cwTernaryTable.NodesFilter0.objectTypeScriptName = this.item.objectTypeScriptName.toUpperCase();
+        this.cwTernaryTable.NodesFilter1.objectTypeScriptName = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
+        this.cwTernaryTable.NodesFilter2.objectTypeScriptName = this.getSecondLvlNode();
+      }     
+
       if((cwApi.isIndexPage && cwApi.isIndexPage()) || this.item.objectTypeScriptName === undefined){
         this.parseObjects(object);
       } else {
         this.parseObjects([object]);
       }
+      this.getObjectFromObjectypes(this.cwTernaryTable.NodesFilter0.objectTypeScriptName,this.cwTernaryTable.NodesFilter1.objectTypeScriptName,this.cwTernaryTable.NodesFilter2.objectTypeScriptName,this.item);
       
     };
 
@@ -81,29 +94,14 @@
       }
     };
 
-    cwTernaryCreation.prototype.getObjects = function () {
-      var objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2;
-
-      if((cwApi.isIndexPage && cwApi.isIndexPage()) || this.item.objectTypeScriptName === undefined) {
-        objectTypeScriptName0 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
-        objectTypeScriptName1 = this.getSecondLvlNode();
-        objectTypeScriptName2 = this.getThirdLvlNode();
-      } else {
-        objectTypeScriptName0 = this.item.objectTypeScriptName.toUpperCase();
-        objectTypeScriptName1 = this.viewSchema.NodesByID[this.mmNode.NodeID].ObjectTypeScriptName.toUpperCase();
-        objectTypeScriptName2 = this.getSecondLvlNode();
-      }
-
-      this.cwTernaryTable.getObjects(objectTypeScriptName0,objectTypeScriptName1,objectTypeScriptName2);
-    };
 
 
 
     cwTernaryCreation.prototype.getCreationTernaryUrl = function (data,callback) {
       if(data && data.hasOwnProperty('ot0') && data.ot0 && data.hasOwnProperty('ot1') && data.ot1 && data.hasOwnProperty('ot2') && data.ot2) {
-        var id0 = data.ot0;
-        var id1 = data.ot1;
-        var id2 = data.ot2;
+        var id0 = data.ot0.id;
+        var id1 = data.ot1.id;
+        var id2 = data.ot2.id;
         var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
         url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + id0;
         url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + id1;
@@ -112,11 +110,9 @@
 
         var line = [{},{},{}];
         line[0].id = id0;
-        line[0].name = this.cwTernaryTable.NodesFilter0.filterField[data.ot0].name;
         line[1].id = id1;
-        line[1].name = this.cwTernaryTable.NodesFilter1.filterField[data.ot1].name;
         line[2].id = id2;
-        line[2].name = this.cwTernaryTable.NodesFilter2.filterField[data.ot2].name;
+
 
         this.sendTernaryRequest(url,function() {
           callback(line);
@@ -131,9 +127,9 @@
 
     cwTernaryCreation.prototype.getRemoveTernaryUrl = function (line,callback) {
       var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + line[0].id;
-      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + line[1].id;
-      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2="  + line[2].id; 
+      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + line.id0;
+      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + line.id1;
+      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2="  + line.id2; 
       url = url + "&command=delete"; 
       var that = this;
       this.sendTernaryRequest(url,function() {
@@ -168,11 +164,9 @@
         var container = document.getElementById("cwTernaryTable");
         var $container = $('#cwTernaryTable');
         var node;
-        var className = "ternaryRemovalTable";
-        $('.' + className).remove();
         var that = this;
+        that.cwTernaryTable.createAngularTable($container,container,this.item);
         if($container){
-          this.cwTernaryTable.createAngularTable($container,container,this.item);
           container.addEventListener('Remove Item', function(event) { 
             if(that.isLocked() === false) {
               that.lock();
@@ -188,6 +182,75 @@
           });
         }
       };
+
+    cwTernaryCreation.prototype.getObjectFromObjectypes = function(objectTypeScriptName0, objectTypeScriptName1, objectTypeScriptName2,item) {
+      var sendData = {};
+      var propertiesToSelect = ["NAME", "ID"];
+      var that = this;
+      var callbackCount = 0;
+
+      sendData.objectTypeScriptName = objectTypeScriptName0;
+      sendData.propertiesToSelect = propertiesToSelect;
+
+      cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
+        var object0;
+        for(var key in update) {
+          if(update.hasOwnProperty(key)) {
+            callbackCount = callbackCount + 1;
+            for (var i = 0; i < update[key].length; i++) {
+              object0 = update[key][i];
+                if (object0.hasOwnProperty('properties') && object0.properties.hasOwnProperty("name") && object0.properties.hasOwnProperty("id")) {
+                  that.cwTernaryTable.NodesFilter0.addfield(key, object0.properties["name"], object0.properties["id"]);
+                  that.cwTernaryTable.NodesFilter0.label = key;
+                } 
+            }
+          }
+        }
+        if (callbackCount === 3) {
+          that.createTable();
+        }
+      });
+
+      sendData.objectTypeScriptName = objectTypeScriptName1;
+      cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
+        var object1;
+        for(var key in update) {
+          if(update.hasOwnProperty(key)) {
+            callbackCount = callbackCount + 1;
+            for (var i = 0; i < update[key].length; i++) {
+              object1 = update[key][i];
+                if (object1.hasOwnProperty('properties') && object1.properties.hasOwnProperty("name") && object1.properties.hasOwnProperty("id")) {
+                  that.cwTernaryTable.NodesFilter1.addfield(key, object1.properties["name"], object1.properties["id"]);
+                  that.cwTernaryTable.NodesFilter1.label = key;
+                } 
+            }
+          }
+        }
+        if (callbackCount === 3) {
+          that.createTable();
+        }
+      });
+
+      sendData.objectTypeScriptName = objectTypeScriptName2;
+      cwApi.cwEditProperties.GetObjectsByScriptName(sendData, function(update) {
+        var object2;
+        for(var key in update) {
+          if(update.hasOwnProperty(key)) {
+            callbackCount = callbackCount + 1;
+            for (var i = 0; i < update[key].length; i++) {
+              object2 = update[key][i];
+                if (object2.hasOwnProperty('properties') && object2.properties.hasOwnProperty("name") && object2.properties.hasOwnProperty("id")) {
+                  that.cwTernaryTable.NodesFilter2.addfield(key, object2.properties["name"], object2.properties["id"]);
+                  that.cwTernaryTable.NodesFilter2.label = key;
+                } 
+            }
+          }
+        }
+        if (callbackCount === 3) {
+          that.createTable();
+        }
+      });
+    };
 
     cwTernaryCreation.prototype.lock = function () {
       this.lockState = true;

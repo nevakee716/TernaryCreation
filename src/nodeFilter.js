@@ -6,7 +6,7 @@
     "use strict";
     // constructor
     var nodeFilter = function () {
-        this.filterField = {};
+        this.filterField = [];
         this.label = "";
         this.selectedId;
         this.selectedName;
@@ -14,33 +14,19 @@
     };
 
     nodeFilter.prototype.addfield = function (otScriptName,name,id) {
-        if(!this.filterField.hasOwnProperty(id)) {
-            this.filterField[id] = {};
-            this.filterField[id].name = name;
-            this.filterField[id].state = false;
-        }
+        var element = {};
+
+        element.id = id;
+        element.name = name;
+
+        this.filterField.push(element);
+        
         if(!this.label) {
             this.label = otScriptName;
         }
-        if(!this.selectedId) {
-            this.selectedId = id;
-            this.selectedName = name;
-        }
+
     };
 
-    nodeFilter.prototype.show = function (id) {
-        if(this.filterField.hasOwnProperty(id)) {
-            this.selectedId = id;
-            this.selectedName = this.filterField[id].name;
-        }
-    };
-
-    nodeFilter.prototype.hide = function (id) {
-        if(this.filterField.hasOwnProperty(id)) {
-            this.selectedId = undefined;
-            this.selectedName = undefined;
-        }
-    };
    
 
     nodeFilter.prototype.getFields = function (state) {
@@ -55,41 +41,15 @@
     };
 
 
-    nodeFilter.prototype.setAllState = function (value) {
-        var id;
-        for (id in this.filterField) {
-            if (this.filterField.hasOwnProperty(id)) {
-               this.filterField[id].state = value;
+
+    nodeFilter.prototype.getObjectWithId = function (id) {
+        var i;
+        for (i = 0; i < this.filterField.length; i += 1) {
+            if(this.filterField[i].id === id) {
+                return this.filterField[i];
             }
-        }   
-    };
-
-
-    nodeFilter.prototype.getFilterObject = function (classname) {
-        var filterObject;
-        var object;
-        var id;
-        var that = this;
-
-        filterObject = document.createElement("select");
-        filterObject.setAttribute('size','1');
-
-        
-        filterObject.className = classname;
-        filterObject.setAttribute('id',this.node);
-        filterObject.addEventListener("change", function() {
-            that.show(this.options[this.selectedIndex].id);
-        });
-
-        for (id in this.filterField) {
-            if (this.filterField.hasOwnProperty(id)) {
-                object = document.createElement("option");
-                object.setAttribute('id',id);
-                object.textContent = this.filterField[id].name;
-                filterObject.appendChild(object);
-            }                                                                                                                                                                                                                                                                                                                                                                                                            
         }
-        return filterObject;
+        return undefined;
     };
 
     if(!cwApi.customLibs) {

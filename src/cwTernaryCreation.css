@@ -11,7 +11,7 @@ div#cwTernaryTable table tbody tr {
 div#cwTernaryTable table tbody tr:nth-child(odd) {
   background-color: #e1e1e1;
 }
-div#cwTernaryTable table tbody th {
+div#cwTernaryTable table thead th {
   border: #bfbfbf;
   background-color: #039be5;
   color: white;
@@ -27,10 +27,27 @@ div#cwTernaryTable table tbody td {
 div#cwTernaryTable table tbody td button{
   width: 100%;
 }
-div#cwTernaryTable table tbody th,
+div#cwTernaryTable table thead th,
 div#cwTernaryTable table tbody td {
   text-align: center;
   margin: 0.5em 1em;
   display: table-cell;
   padding: 0,2em;
+}
+
+.arrow-up{
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: :10px solid black;
+}
+
+.arrow-down{
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: :10px solid black;
+
 }
