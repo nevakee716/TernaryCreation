@@ -202,24 +202,26 @@
 
     cwTernaryCreation.prototype.createTernary = function (event) {
       if(this.isLocked() === false && event.callback) {
+        this.lock();
         if(event.data && event.data.hasOwnProperty('ot0') && event.data.ot0 && event.data.hasOwnProperty('ot1') && event.data.ot1 && event.data.hasOwnProperty('ot2') && event.data.ot2) {
-          var id0 = event.data.ot0.id;
-          var id1 = event.data.ot1.id;
-          var id2 = event.data.ot2.id;
+
           var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-          url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + id0;
-          url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + id1;
-          url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2=" + id2;
+          url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + event.data.ot0.id;
+          url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + event.data.ot1.id;
+          url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2=" + event.data.ot2.id;
           url = url + "&command=create"; 
 
           var line = [{},{},{}];
-          line[0].id = id0;
-          line[1].id = id1;
-          line[2].id = id2;
+          line[0].id = event.data.ot0.id;
+          line[1].id = event.data.ot1.id;
+          line[2].id = event.data.ot2.id;
+          line[0].name = event.data.ot0.name;
+          line[1].name = event.data.ot1.name;
+          line[2].name = event.data.ot2.name;
 
           var that = this;
           this.sendTernaryRequest(url,function() {
-            event.callback(line);
+            event.callback(line,that.options.CustomOptions['Quick-Add']);
             that.unlock();
           });
         }
@@ -234,6 +236,7 @@
 
     cwTernaryCreation.prototype.removeTernary = function (event) {
       if(this.isLocked() === false && event.data && event.callback) {
+        this.lock();
         var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
         url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + event.data.id0;
         url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + event.data.id1;

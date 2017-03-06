@@ -22,7 +22,7 @@
 
     var line = {};
     line.name0 = data0.name;
-    line.label0 = data0.label;
+    line.label0 = data0.label;     
     line.id0 = data0.id;
     line.name1 = data1.name;
     line.label1 = data1.label;
@@ -36,6 +36,15 @@
   };
 
   cwTernaryTable.prototype.addLineAndRefresh = function(line) {
+    for (var i = 0; i < this.lines.length; i++) {
+      if(this.lines[i].id0 === line[0].id && this.lines[i].id1 === line[1].id && this.lines[i].id2 === line[2].id) {
+        cwApi.notificationManager.addNotification('Ternary was already existed');
+        return;
+      }
+    }
+    line[0].label = line[0].name ;
+    line[1].label = line[1].name ;
+    line[2].label = line[2].name ;
     this.addline(line[0], line[1], line[2]);
     this.refresh();
   };
@@ -86,9 +95,9 @@
       $scope.add = function(data) {
         var newEvent = document.createEvent('Event');
         newEvent.data = data;
-        newEvent.callback = function(lineToAdd) {
-          that.addLineAndRefresh(lineToAdd);
-          that.reload();
+        newEvent.callback = function(lineToAdd,quickADD) {
+          if(quickADD) that.addLineAndRefresh(lineToAdd);
+          else that.reload();
         };
         newEvent.initEvent('Add Item', true, true);
         container.dispatchEvent(newEvent);
@@ -115,8 +124,6 @@
         $scope.data['ot0'] = {};
         $scope.data['ot0']['id'] = item.object_id.toString();
       }
-
-
 
       $scope.sortColumn = "name0";
       $scope.reverseSort = false;
