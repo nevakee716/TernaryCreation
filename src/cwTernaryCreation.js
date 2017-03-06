@@ -12,6 +12,9 @@
       this.cwTernaryTable = new cwApi.customLibs.cwTernaryCreation.cwTernaryTable(this.viewSchema); 
       cwApi.registerLayoutForJSActions(this);
       this.lockState = false;
+
+      this.removeTernary = this.removeTernary.bind(this);
+      this.createTernary = this.createTernary.bind(this); 
     };
 
     cwTernaryCreation.prototype.drawAssociations = function (output, associationTitleText, object) {
@@ -75,9 +78,6 @@
     };
 
 
-
-
-
     cwTernaryCreation.prototype.getSecondLvlNode = function () {
       var nodes,key;
       if(this.viewSchema.NodesByID[this.mmNode.NodeID].SortedChildren[0]){
@@ -94,96 +94,7 @@
       }
     };
 
-
-
-
-    cwTernaryCreation.prototype.getCreationTernaryUrl = function (data,callback) {
-      if(data && data.hasOwnProperty('ot0') && data.ot0 && data.hasOwnProperty('ot1') && data.ot1 && data.hasOwnProperty('ot2') && data.ot2) {
-        var id0 = data.ot0.id;
-        var id1 = data.ot1.id;
-        var id2 = data.ot2.id;
-        var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-        url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + id0;
-        url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + id1;
-        url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2=" + id2;
-        url = url + "&command=create"; 
-
-        var line = [{},{},{}];
-        line[0].id = id0;
-        line[1].id = id1;
-        line[2].id = id2;
-
-
-        this.sendTernaryRequest(url,function() {
-          callback(line);
-        });
-      }
-      else {
-        this.unlock();
-        cwApi.notificationManager.addNotification("Please Select All fields",'error'); 
-      }
-    };
-
-
-    cwTernaryCreation.prototype.getRemoveTernaryUrl = function (line,callback) {
-      var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
-      url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + line.id0;
-      url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + line.id1;
-      url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2="  + line.id2; 
-      url = url + "&command=delete"; 
-      var that = this;
-      this.sendTernaryRequest(url,function() {
-        that.unlock();
-        callback();
-      });
-    };
-
-
-
-    cwTernaryCreation.prototype.sendTernaryRequest = function (url,callback) {
-      var that = this;
-      cwApi.cwDoGETQuery('Failed to contact EvolveOnDemand', url, function(data){
-        if(data !== 'Failed to contact EvolveOnDemand') {
-          if(data.status === 'Ok') {
-            cwApi.notificationManager.addNotification(data.result);
-            callback();
-          } else {
-            cwApi.notificationManager.addNotification(data.result,'error');
-            that.unlock();
-          }
-        } else {
-          cwApi.notificationManager.addNotification('Failed to contact EvolveOnDemand','error');
-          that.unlock();
-        }
-      });
-
-    };
-
-
-    cwTernaryCreation.prototype.createTable = function () {
-        var container = document.getElementById("cwTernaryTable");
-        var $container = $('#cwTernaryTable');
-        var node;
-        var that = this;
-        that.cwTernaryTable.createAngularTable($container,container,this.item);
-        if($container){
-          container.addEventListener('Remove Item', function(event) { 
-            if(that.isLocked() === false) {
-              that.lock();
-              that.getRemoveTernaryUrl(event.line,event.callback);
-            }
-          });
-
-          container.addEventListener('Add Item', function(event) { 
-            if(that.isLocked() === false) {
-              that.lock();
-              that.getCreationTernaryUrl(event.data,event.callback);
-            }
-          });
-        }
-      };
-
-    cwTernaryCreation.prototype.getObjectFromObjectypes = function(objectTypeScriptName0, objectTypeScriptName1, objectTypeScriptName2,item) {
+   cwTernaryCreation.prototype.getObjectFromObjectypes = function(objectTypeScriptName0, objectTypeScriptName1, objectTypeScriptName2,item) {
       var sendData = {};
       var propertiesToSelect = ["NAME", "ID"];
       var that = this;
@@ -251,6 +162,94 @@
         }
       });
     };
+
+
+
+
+
+
+    cwTernaryCreation.prototype.sendTernaryRequest = function (url,callback) {
+      var that = this;
+      cwApi.cwDoGETQuery('Failed to contact EvolveOnDemand', url, function(data){
+        if(data !== 'Failed to contact EvolveOnDemand') {
+          if(data.status === 'Ok') {
+            cwApi.notificationManager.addNotification(data.result);
+            callback();
+          } else {
+            cwApi.notificationManager.addNotification(data.result,'error');
+            that.unlock();
+          }
+        } else {
+          cwApi.notificationManager.addNotification('Failed to contact EvolveOnDemand','error');
+          that.unlock();
+        }
+      });
+
+    };
+
+
+    cwTernaryCreation.prototype.createTable = function () {
+        var container = document.getElementById("cwTernaryTable");
+        var $container = $('#cwTernaryTable');
+        container.removeEventListener('Remove Item', this.removeTernary);   
+        container.removeEventListener('Add Item', this.createTernary);   
+        this.cwTernaryTable.createAngularTable($container,container,this.item);
+        if(container){
+          container.addEventListener('Remove Item', this.removeTernary);  
+          container.addEventListener('Add Item', this.createTernary); 
+        }
+      };
+
+    cwTernaryCreation.prototype.createTernary = function (event) {
+      if(this.isLocked() === false && event.callback) {
+        if(event.data && event.data.hasOwnProperty('ot0') && event.data.ot0 && event.data.hasOwnProperty('ot1') && event.data.ot1 && event.data.hasOwnProperty('ot2') && event.data.ot2) {
+          var id0 = event.data.ot0.id;
+          var id1 = event.data.ot1.id;
+          var id2 = event.data.ot2.id;
+          var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
+          url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + id0;
+          url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1=" + id1;
+          url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2=" + id2;
+          url = url + "&command=create"; 
+
+          var line = [{},{},{}];
+          line[0].id = id0;
+          line[1].id = id1;
+          line[2].id = id2;
+
+          var that = this;
+          this.sendTernaryRequest(url,function() {
+            event.callback(line);
+            that.unlock();
+          });
+        }
+        else {
+          this.unlock();
+          cwApi.notificationManager.addNotification("Please Select All fields",'error'); 
+        }
+      }
+    };
+
+
+
+    cwTernaryCreation.prototype.removeTernary = function (event) {
+      if(this.isLocked() === false && event.data && event.callback) {
+        var url = this.options.CustomOptions['EVOD-url'] + "ternarycreation?model=" + cwAPI.cwConfigs.ModelFilename;
+        url = url + "&ot0=" + this.cwTernaryTable.NodesFilter0.objectTypeScriptName + "&id0=" + event.data.id0;
+        url = url + "&ot1=" + this.cwTernaryTable.NodesFilter1.objectTypeScriptName + "&id1="  + event.data.id1;
+        url = url + "&ot2=" + this.cwTernaryTable.NodesFilter2.objectTypeScriptName + "&id2="  + event.data.id2; 
+        url = url + "&command=delete"; 
+        var that = this;
+        this.sendTernaryRequest(url,function() {
+          that.unlock();
+          event.callback();
+        });
+      }
+    };
+
+
+
+ 
 
     cwTernaryCreation.prototype.lock = function () {
       this.lockState = true;

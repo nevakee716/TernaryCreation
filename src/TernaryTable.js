@@ -95,11 +95,11 @@
       };
 
 
-      $scope.remove = function(line) {
+      $scope.remove = function(data) {
         var newEvent = document.createEvent('Event');
-        newEvent.line = line;
+        newEvent.data = data;
         newEvent.callback = function() {
-          that.removeLine(line);
+          that.removeLine(data);
           $scope.$apply();
         };
         newEvent.initEvent('Remove Item', true, true);
@@ -122,7 +122,7 @@
       $scope.reverseSort = false;
 
       $scope.sortData = function(column) {
-        $scope.reverseSort = ($scope.sortColum == column) ? !$scope.reverseSort : false;
+        $scope.reverseSort = ($scope.sortColumn == column) ? !$scope.reverseSort : false;
         $scope.sortColumn = column;
       };
 

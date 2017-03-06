@@ -5,12 +5,6 @@ div#cwTernaryTable table {
   background: white;
   color: #424242;
 }
-div#cwTernaryTable table tbody tr {
-  border: #bfbfbf;
-}
-div#cwTernaryTable table tbody tr:nth-child(odd) {
-  background-color: #e1e1e1;
-}
 div#cwTernaryTable table thead th {
   border: #bfbfbf;
   background-color: #039be5;
@@ -19,12 +13,34 @@ div#cwTernaryTable table thead th {
   text-colour: white;
   text-size: 13px;
 }
+div#cwTernaryTable table thead th div.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid white;
+  display: inline-block;
+}
+div#cwTernaryTable table thead th div.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid white;
+  display: inline-block;
+}
+div#cwTernaryTable table tbody tr {
+  border: #bfbfbf;
+}
+div#cwTernaryTable table tbody tr:nth-child(odd) {
+  background-color: #e1e1e1;
+}
 div#cwTernaryTable table tbody td {
-  display: block;
+  display: table-cell;
   word-wrap: break-word;
   max-width: 7em;
 }
-div#cwTernaryTable table tbody td button{
+div#cwTernaryTable table tbody td button {
   width: 100%;
 }
 div#cwTernaryTable table thead th,
@@ -32,22 +48,4 @@ div#cwTernaryTable table tbody td {
   text-align: center;
   margin: 0.5em 1em;
   display: table-cell;
-  padding: 0,2em;
-}
-
-.arrow-up{
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: :10px solid black;
-}
-
-.arrow-down{
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: :10px solid black;
-
-}
+  padding: 0, 2em;
