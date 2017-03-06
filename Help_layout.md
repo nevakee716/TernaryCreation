@@ -6,6 +6,7 @@
 
 ## Patch Notes
 
+* 1.2 : Sortable column, search filters and quick add option
 * 1.1 : Export Csv
 * 1.0 : 1st version working
 
@@ -48,6 +49,10 @@ P1O1 with properties containaing (A1 UUID)
 ### EVOD-url : 
 
 Set the URL of EvolveOnDemand
+
+### Quick Add :
+
+Adding will not reload the custom display string and link, that allow you to add multiple item quickly, if you reload the page the link and custom display string will appear correctly
 
 ## Configuration
 
