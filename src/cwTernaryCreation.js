@@ -190,11 +190,11 @@
 
     cwTernaryCreation.prototype.createTable = function () {
         var container = document.getElementById("cwTernaryTable");
-        var $container = $('#cwTernaryTable');
-        container.removeEventListener('Remove Item', this.removeTernary);   
-        container.removeEventListener('Add Item', this.createTernary);   
+        var $container = $('#cwTernaryTable'); 
         this.cwTernaryTable.createAngularTable($container,container,this.item);
         if(container){
+          container.removeEventListener('Remove Item', this.removeTernary);   
+          container.removeEventListener('Add Item', this.createTernary);  
           container.addEventListener('Remove Item', this.removeTernary);  
           container.addEventListener('Add Item', this.createTernary); 
         }
