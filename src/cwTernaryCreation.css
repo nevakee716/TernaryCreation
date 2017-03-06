@@ -4,9 +4,10 @@ div#cwTernaryTable table {
   overflow: hidden;
   background: white;
   color: #424242;
+  border: #039be5;
 }
 div#cwTernaryTable table thead th {
-  border: #bfbfbf;
+  border: #039be5;
   background-color: #039be5;
   color: white;
   padding: 8px;
@@ -32,9 +33,15 @@ div#cwTernaryTable table thead th div.arrow-up {
 div#cwTernaryTable table tbody tr {
   border: #bfbfbf;
 }
-div#cwTernaryTable table tbody tr:nth-child(odd) {
+div#cwTernaryTable table tbody tr td input{
+  width: 100%;
+  text-align: center;
+}
+
+div#cwTernaryTable table tbody tr:nth-child(even) {
   background-color: #e1e1e1;
 }
+
 div#cwTernaryTable table tbody td {
   display: table-cell;
   word-wrap: break-word;

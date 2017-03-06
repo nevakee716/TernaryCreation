@@ -63,13 +63,13 @@
       that.scope = $scope;
       $scope.lines = that.lines;
       $scope.getLabel0 = function() {
-        return that.NodesFilter0.label;
+        return that.NodesFilter0.label.charAt(0).toUpperCase() + that.NodesFilter0.label.slice(1);
       };
       $scope.getLabel1 = function() {
-        return that.NodesFilter1.label;
+        return that.NodesFilter1.label.charAt(0).toUpperCase() + that.NodesFilter1.label.slice(1);
       };
       $scope.getLabel2 = function() {
-        return that.NodesFilter2.label;
+        return that.NodesFilter2.label.charAt(0).toUpperCase() + that.NodesFilter2.label.slice(1);
       };
 
       $scope.ot0Objects = that.NodesFilter0.filterField;

@@ -1,25 +1,54 @@
 <table>
-  <tr>
-    <th style="{{display}}"> {{getLabel0()}}</th>
-    <th>{{getLabel1()}}</th>
-    <th>{{getLabel2()}}</th>
-    <th>Action</th>
-  </tr>
-  <tr>
-    <td style="{{display}}"><select ng-options="key as ot0Objects[key].name for (key, value) in ot0Objects" ng-model="data.ot0"></select></td>
-    <td><select ng-options="key as ot1Objects[key].name for (key, value) in ot1Objects" ng-model="data.ot1"></select></td>
-    <td><select ng-options="key as ot2Objects[key].name for (key, value) in ot2Objects" ng-model="data.ot2"></select></td>
-    <td><button ng-click="add(data)">Add</button><br></td>
-  </tr>  
-  <tr ng-repeat="(key, value) in lines">
-    <td style="{{display}}" ng-bind-html="getCustomDisplayString(0,key)"></td>
-    <td ng-bind-html="getCustomDisplayString(1,key)"></td>
-    <td ng-bind-html="getCustomDisplayString(2,key)"></td>
-    <td>
-    	<button ng-click="remove(key)">Remove</button>
-   	</td>
-  </tr>
+  <thead>
+    <tr>
+      <th ng-attr-style="{{display}}" ng-click="sortData('name0')">{{getLabel0()}}<div ng-class="getSortClass('name0')"></div></th>
+      <th ng-click="sortData('name1')">{{getLabel1()}}<div ng-class="getSortClass('name1')"></div></th>
+      <th ng-click="sortData('name2')">{{getLabel2()}}<div ng-class="getSortClass('name2')"></div></th>
+      <th><button ng-click="ExportCsv()">Export Csv</button></th>
+    </tr>
+  </thead>
+  <tbody>  
+    <tr>
+      <td ng-attr-style="{{display}}"><select ng-options="obj.name for obj in ot0Objects | orderBy:'name' track by obj.id" ng-model="data.ot0"></select></td>
+      <td><select ng-options="obj.name for obj in ot1Objects | orderBy:'name' track by obj.id" ng-model="data.ot1"></select></td>
+      <td><select ng-options="obj.name for obj in ot2Objects | orderBy:'name' track by obj.id" ng-model="data.ot2"></select></td>
+      <td><button ng-click="add(data)">Add</button><br></td>
+    </tr> 
+    <tr ng-repeat="line in lines | orderBy:sortColumn:reverseSort">
+      <td ng-attr-style="{{display}}" ng-bind-html="getSce(line.label0)">{{line.name0}}</td>
+      <td ng-bind-html="getSce(line.label1)">{{line.name1}}</td>
+      <td ng-bind-html="getSce(line.label2)">{{line.name2}}</td>
+      <td>
+        <button ng-click="remove(line)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
 </table>
+
+
+<!-- <table>
+  <tr>
+    <th ng-attr-style="{{display}}" ng-click="sortData(getLabel0())"> {{getLabel0()}} <div ng-class="getSortClass(getLabel0())"></div></th>
+    <th ng-click="sortData(getLabel1())">{{getLabel1()}}<div ng-class="getSortClass(getLabel1())"></div></th>
+    <th ng-click="sortData(getLabel2())">{{getLabel2()}}<div ng-class="getSortClass(getLabel2())"></div></th>
+    <th><button ng-click="ExportCsv()">Export Csv</button></th>
+  </tr>
+    <tr>
+      <td ng-attr-style="{{display}}"><select ng-options="obj.name for obj in ot0Objects | orderBy:'name' track by obj.id" ng-model="data.ot0"></select></td>
+      <td><select ng-options="obj.name for obj in ot1Objects | orderBy:'name' track by obj.id" ng-model="data.ot1"></select></td>
+      <td><select ng-options="obj.name for obj in ot2Objects | orderBy:'name' track by obj.id" ng-model="data.ot2"></select></td>
+      <td><button ng-click="add(data)">Add</button><br></td>
+    </tr> 
+  <tr ng-repeat="line in lines | orderBy:sortColumn:reverseSort">
+    <td ng-attr-style="{{display}}" ng-bind-html="getCustomDisplayString(0,line)">{{line[0].name}}</td>
+    <td ng-bind-html="getCustomDisplayString(1,line)">{{line[1].name}}</td>
+    <td ng-bind-html="getCustomDisplayString(2,line)">{{line[2].name}}</td>
+    <td>
+      <button ng-click="remove(line)">Remove</button>
+    </td>
+  </tr>
+</table> -->
+
 
 
 
