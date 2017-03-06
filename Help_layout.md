@@ -2,11 +2,20 @@
 
 | Name             | Status  | Stable | Work but need more test | Nightly | Updated by        |
 |------------------|---------|--------|-------------------------|---------|-------------------|
-| Ternary Filter   | Version | x      | 1.0                     | 1.x     | Mathias PFAUWADEL |
+| Ternary Filter   | Version | x      | 1.1                     | 1.x     | Mathias PFAUWADEL |
 
 ## Patch Notes
 
-1.0 : 1st version working
+* 1.1 : Export Csv
+* 1.0 : 1st version working
+
+## TBD
+
+* Search in Filter
+* Sort in Fitler
+* Adding queue for adding
+
+ 
 
 ## Description:
 Allow you to create and remove ternary.
