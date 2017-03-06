@@ -1,7 +1,7 @@
 {
   "name": "TernaryCreation",
   "description": "Allow you to Create Ternary Association",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "cwTernaryCreation.js",
   "scripts": {
     "test": ""
