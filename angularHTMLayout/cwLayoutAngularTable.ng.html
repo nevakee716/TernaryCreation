@@ -4,16 +4,15 @@
 	    <th ng-attr-style="{{display}}" ng-click="sortData('name0')">{{getLabel0()}}<div ng-class="getSortClass('name0')"></div></th>
 	    <th ng-click="sortData('name1')">{{getLabel1()}}<div ng-class="getSortClass('name1')"></div></th>
 	    <th ng-click="sortData('name2')">{{getLabel2()}}<div ng-class="getSortClass('name2')"></div></th>
-	    <th> Action</th>
+	    <th> Action <button ng-click="ExportCsv()">Export Csv</button></th>
 	  </tr>
 	</thead>
   <tbody>  
-    <tr><td colspan = "3"><input type="text" placeholder="Search for All" ng-model="searchTextg" /></td></tr>
     <tr>
       <td  ng-attr-style="{{display}}"><input type="text" placeholder="{{'Search ' + getLabel0()}}" ng-model="searchText0.name0" /></td>
       <td><input type="text" placeholder="{{'Search ' + getLabel1()}}" ng-model="searchText1.name1" /></td>
       <td><input type="text" placeholder="{{'Search ' + getLabel2()}}" ng-model="searchText2.name2" /></td>
-      <td><button ng-click="ExportCsv()">Export Csv</button></td>
+      <td><input type="text" placeholder="Search for All" ng-model="searchTextg" /></td>
     </tr>
     <tr>
       <td ng-attr-style="{{display}}"><select ng-options="obj.name for obj in ot0Objects | orderBy:'name' | filter:searchTextg | filter:searchText0.name0" ng-model="data.ot0"></select></td>
@@ -21,7 +20,7 @@
       <td><select ng-options="obj.name for obj in ot2Objects | orderBy:'name' | filter:searchTextg | filter:searchText2.name2" ng-model="data.ot2"></select></td>
       <td><button ng-click="add(data)">Add</button><br></td>
     </tr> 
-    <tr ng-repeat="line in lines | orderBy:sortColumn:reverseSort | filter:searchTextg | filter:searchText0 | filter:searchText1 | filter:searchText2">
+    <tr ng-animate="'animate'" ng-repeat="line in lines | orderBy:sortColumn:reverseSort | filter:searchTextg | filter:searchText0 | filter:searchText1 | filter:searchText2">
       <td ng-attr-style="{{display}}" ng-bind-html="getSce(line.label0)">{{line.name0}}</td>
       <td ng-bind-html="getSce(line.label1)">{{line.name1}}</td>
       <td ng-bind-html="getSce(line.label2)">{{line.name2}}</td>

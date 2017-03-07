@@ -7,17 +7,25 @@
   // constructor
   var cwTernaryTable = function() {
     this.lines = [];
-    this.NodesFilter0 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true, 'NodesFilter0');
-    this.NodesFilter1 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true, 'NodesFilter1');
-    this.NodesFilter2 = new cwApi.customLibs.cwTernaryCreation.nodeFilter(true, 'NodesFilter2');
+    this.NodesFilter0 = new cwApi.customLibs.cwTernaryCreation.nodeFilter();
+    this.NodesFilter1 = new cwApi.customLibs.cwTernaryCreation.nodeFilter();
+    this.NodesFilter2 = new cwApi.customLibs.cwTernaryCreation.nodeFilter();
   };
 
 
 
   cwTernaryTable.prototype.addline = function(data0, data1, data2) {
     if(data1.label && data2.label) {
-      data1.label = data1.label.replace('cwview=' + this.NodesFilter0.objectTypeScriptName.toLowerCase(),'cwview=' + this.NodesFilter1.objectTypeScriptName.toLowerCase());
-      data2.label = data2.label.replace('cwview=' + this.NodesFilter0.objectTypeScriptName.toLowerCase(),'cwview=' + this.NodesFilter2.objectTypeScriptName.toLowerCase());
+      var ots0 = 'cwview=' + this.NodesFilter0.objectTypeScriptName.toLowerCase();
+      var ots1 = 'cwview=' + this.NodesFilter1.objectTypeScriptName.toLowerCase();
+      var ots2 = 'cwview=' + this.NodesFilter2.objectTypeScriptName.toLowerCase();     
+      if(cwApi.isIndexPage && !cwApi.isIndexPage()) {
+        data2.label = data2.label.replace(ots1,ots2);
+      } else 
+      {
+        data1.label = data1.label.replace(ots0,ots1);
+        data2.label = data2.label.replace(ots0,ots2);
+      }
     }
 
     var line = {};
